@@ -74,3 +74,36 @@ header.wrap { padding-top: 24px; }
 
 /* Add grid lines for hours */
 .events::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(180deg, transparent, transparent 59px, rgba(255,255,255,0.15) 59px, rgba(255,255,255,0.15) 60px); z-index: 0; pointer-events: none; }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  .wrap { padding: 12px; }
+  header.wrap { padding-top: 16px; }
+  h1 { font-size: 20px; }
+  h2 { font-size: 18px; }
+  
+  /* Hide server times on mobile to save space */
+  .server-times { display: none; }
+  
+  /* Timeline adjustments */
+  .vertical-timeline { height: 800px; }
+  .hours { flex: 0 0 50px; }
+  .hour-label { padding-right: 6px; font-size: 11px; }
+  .event-bar { font-size: 11px; padding: 4px; }
+  .event-bar strong { font-size: 10px; display: block; line-height: 1.2; }
+  
+  /* Footer */
+  .foot { font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 18px; }
+  
+  /* Make timeline taller on small screens */
+  .vertical-timeline { height: 600px; }
+  .hours { flex: 0 0 45px; }
+  .hour-label { font-size: 10px; }
+  .event-bar { font-size: 10px; padding: 3px; }
+  .event-bar strong { font-size: 9px; }
+}

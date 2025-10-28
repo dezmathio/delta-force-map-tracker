@@ -254,8 +254,8 @@ function render() {
           segment.classList.add('past');
         }
         
-        // Add label only to the first segment or every 4 hours for long events
-        if (hourOffset === 0 || (eventDurationHours >= 24 && hourOffset % 4 === 0)) {
+        // Add label to: first segment, every 4 hours for long events, OR the current active hour
+        if (hourOffset === 0 || (eventDurationHours >= 24 && hourOffset % 4 === 0) || isCurrentHour) {
           const label = document.createElement('strong');
           label.textContent = humanMap(w);
           label.style.position = 'relative';
@@ -276,10 +276,10 @@ function render() {
     timeLine.style.left = '0';
     timeLine.style.right = '0';
     timeLine.style.height = '2px';
-    timeLine.style.background = '#ef4444'; // Red
+    timeLine.style.background = 'rgba(239, 68, 68, 0.7)'; // Red with opacity
     timeLine.style.zIndex = '100';
     timeLine.style.pointerEvents = 'none';
-    timeLine.style.boxShadow = '0 0 8px rgba(239, 68, 68, 0.8)';
+    timeLine.style.boxShadow = '0 0 8px rgba(239, 68, 68, 0.5)';
     eventsEl.appendChild(timeLine);
 
   } else {
