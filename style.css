@@ -4,6 +4,13 @@ body { margin:0; background: var(--bg); color: var(--text); font: 16px/1.45 syst
 .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
 header.wrap { padding-top: 24px; }
 .sub { color: var(--muted); }
+.server-times { margin-top: 24px; padding: 16px; background: var(--card); border-radius: 12px; border: 1px solid #1f2a36; }
+.server-times h3 { margin: 0 0 12px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 600; }
+.server-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.server-time { display: flex; flex-direction: column; gap: 4px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+.server-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.server-clock { font-size: 20px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.server-city { font-size: 11px; color: var(--muted); }
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
 /* Update for simplified layout */

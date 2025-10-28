@@ -288,6 +288,26 @@ function render() {
 
   // Add current time update
   by('#current-time').textContent = fmt(now);
+  
+  // Update server region clocks
+  updateServerClocks();
+}
+
+function updateServerClocks() {
+  const timezones = {
+    'clock-na': 'America/New_York',
+    'clock-sa': 'America/Sao_Paulo',
+    'clock-eu': 'Europe/London',
+    'clock-af': 'Africa/Cairo',
+    'clock-ea': 'Asia/Shanghai',
+    'clock-sea': 'Australia/Sydney'
+  };
+  
+  for (const [id, tz] of Object.entries(timezones)) {
+    const time = DateTime.now().setZone(tz).toFormat('HH:mm');
+    const el = by(`#${id}`);
+    if (el) el.textContent = time;
+  }
 }
 
 async function init() {
