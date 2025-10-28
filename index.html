@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Primary Meta Tags -->
+<title>Delta Force Map Rotation Tracker | Operations Schedule & Times</title>
+<meta name="title" content="Delta Force Map Rotation Tracker | Operations Schedule & Times" />
+<meta name="description" content="Real-time Delta Force map rotation tracker. View today's Operations schedule for Hazard Operations including Zero Dam, Layali Grove, Brakkesh, Space City, and Tide Prison. Updated daily with official and community rotations." />
+<meta name="keywords" content="Delta Force, map rotation, operations schedule, Hazard Operations, Zero Dam, Layali Grove, Brakkesh, Space City, Tide Prison, game schedule, Delta Force Hawk Ops, rotation tracker" />
+<meta name="author" content="dez" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://yourdomain.com/" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://yourdomain.com/" />
+<meta property="og:title" content="Delta Force Map Rotation Tracker | Operations Schedule" />
+<meta property="og:description" content="Real-time Delta Force map rotation tracker. View today's Operations schedule in your local timezone." />
+<meta property="og:image" content="https://yourdomain.com/og-image.png" />
+<meta property="og:site_name" content="Delta Force Rotation Tracker" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://yourdomain.com/" />
+<meta property="twitter:title" content="Delta Force Map Rotation Tracker" />
+<meta property="twitter:description" content="Real-time Delta Force map rotation tracker. View today's Operations schedule in your local timezone." />
+<meta property="twitter:image" content="https://yourdomain.com/twitter-image.png" />
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#0b0f14" />
+
+<link rel="stylesheet" href="style.css" />
+<!-- Luxon for timezone-safe UTC conversions -->
+<script defer src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+<script defer src="script.js"></script>
+
+<!-- Structured Data / JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Delta Force Map Rotation Tracker",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Real-time map rotation tracker for Delta Force Hazard Operations. View current and upcoming map schedules in your local timezone.",
+  "url": "https://yourdomain.com/",
+  "author": {
+    "@type": "Person",
+    "name": "dez",
+    "url": "https://buymeacoffee.com/dezmathio"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "ratingCount": "1"
+  }
+}
+</script>
+</head>
+<body>
+<header class="wrap">
+<h1>Delta Force — Map Rotation Operations</h1>
+<p class="sub">Times shown in your local timezone (<span id="current-time"></span>).</p>
+</header>
+
+
+<main class="wrap grid">
+<section class="card timeline-card">
+<h2>Today's Timeline</h2>
+<div id="timeline" class="timeline vertical-timeline">
+  <div class="hours"></div>
+  <div class="events"></div>
+</div>
+</section>
+
+</main>
+
+
+<footer class="wrap foot">
+<small>
+Built as a community utility. Source data: <code>rotation.json</code> + <code>overrides.json</code> (UTC). End times are exclusive.
+<br>
+Support the developer: <a href="https://buymeacoffee.com/dezmathio" target="_blank" rel="noopener">Buy me a coffee ☕</a>
+</small>
+</footer>
+</body>
+</html>
