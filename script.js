@@ -37,43 +37,65 @@ function normalizeWindows(raw, todayStart) {
     });
   }
   
-  // Add weekday rotation (applies every day Mon-Sun)
-  if (raw.weekday_rotation && raw.weekday_rotation.schedule) {
-    for (let hour = 0; hour < 24; hour++) {
-      const entries = raw.weekday_rotation.schedule.filter(e => e.hour === hour);
-      entries.forEach(entry => {
-        windows.push({
-          map: entry.map,
-          variant: entry.variant,
-          tags: entry.tags || [],
-          start: todayStart.set({hour: hour, minute: 0}),
-          end: todayStart.set({hour: hour + 1, minute: 0}),
-          confidence: entry.confidence || 'official',
-          note: entry.note || ''
+  // Helper function to generate windows from a UTC day's schedule
+  const addScheduleForUTCDay = (utcDayStart, schedule, checkWeekend = false, weekendSchedule = null) => {
+    const dayOfWeekUTC = utcDayStart.weekday; // 1=Mon, 7=Sun
+    const isWeekendUTC = dayOfWeekUTC >= 5 && dayOfWeekUTC <= 7;
+    
+    // Add weekday rotation
+    if (schedule) {
+      for (let hour = 0; hour < 24; hour++) {
+        const entries = schedule.filter(e => e.hour === hour);
+        entries.forEach(entry => {
+          const startUTC = utcDayStart.set({hour: hour, minute: 0});
+          const endUTC = utcDayStart.set({hour: hour + 1, minute: 0});
+          windows.push({
+            map: entry.map,
+            variant: entry.variant,
+            tags: entry.tags || [],
+            start: startUTC.toLocal(),
+            end: endUTC.toLocal(),
+            confidence: entry.confidence || 'official',
+            note: entry.note || ''
+          });
         });
-      });
+      }
     }
-  }
+    
+    // Add weekend additions if applicable
+    if (checkWeekend && isWeekendUTC && weekendSchedule) {
+      for (let hour = 0; hour < 24; hour++) {
+        const entries = weekendSchedule.filter(e => e.hour === hour);
+        entries.forEach(entry => {
+          const startUTC = utcDayStart.set({hour: hour, minute: 0});
+          const endUTC = utcDayStart.set({hour: hour + 1, minute: 0});
+          windows.push({
+            map: entry.map,
+            variant: entry.variant,
+            tags: entry.tags || [],
+            start: startUTC.toLocal(),
+            end: endUTC.toLocal(),
+            confidence: entry.confidence || 'official',
+            note: entry.note || ''
+          });
+        });
+      }
+    }
+  };
   
-  // Add weekend additions (Fri-Sun only)
-  const dayOfWeek = todayStart.weekday; // 1=Mon, 7=Sun
-  const isWeekend = dayOfWeek >= 5 && dayOfWeek <= 7;
-  if (isWeekend && raw.weekend_additions && raw.weekend_additions.schedule) {
-    for (let hour = 0; hour < 24; hour++) {
-      const entries = raw.weekend_additions.schedule.filter(e => e.hour === hour);
-      entries.forEach(entry => {
-        windows.push({
-          map: entry.map,
-          variant: entry.variant,
-          tags: entry.tags || [],
-          start: todayStart.set({hour: hour, minute: 0}),
-          end: todayStart.set({hour: hour + 1, minute: 0}),
-          confidence: entry.confidence || 'official',
-          note: entry.note || ''
-        });
-      });
-    }
-  }
+  // Generate windows from yesterday, today, and tomorrow UTC
+  // This ensures we cover all 24 hours of today's local day
+  // (e.g., if local is EST (UTC-5), local 19:00-23:59 corresponds to tomorrow's UTC 00:00-04:59)
+  const todayStartUTC = todayStart.toUTC().startOf('day');
+  const yesterdayStartUTC = todayStartUTC.minus({days: 1});
+  const tomorrowStartUTC = todayStartUTC.plus({days: 1});
+  
+  const weekdaySchedule = raw.weekday_rotation?.schedule;
+  const weekendSchedule = raw.weekend_additions?.schedule;
+  
+  addScheduleForUTCDay(yesterdayStartUTC, weekdaySchedule, true, weekendSchedule);
+  addScheduleForUTCDay(todayStartUTC, weekdaySchedule, true, weekendSchedule);
+  addScheduleForUTCDay(tomorrowStartUTC, weekdaySchedule, true, weekendSchedule);
   
   return windows.sort((a,b) => a.start - b.start);
 }
@@ -320,7 +342,7 @@ async function init() {
       console.warn('No overrides file or failed to load:', e);
     }
 
-    // Use local timezone
+    // Use local time for display, but convert UTC schedule times in normalizeWindows
     const now = DateTime.local();
     const todayStart = now.startOf('day');
     state.rotationMeta = rotation.metadata;
