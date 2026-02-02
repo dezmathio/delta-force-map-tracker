@@ -7,7 +7,8 @@ const fmt = (dt) => dt.toLocal().toFormat("ccc HH:mm");
 
 const state = {
 windows: [], // normalized {map, variant, tags, start/end in local timezone, confidence, note}
-rotationMeta: null
+rotationMeta: null,
+alwaysAvailable: [] // maps that are always available (24/7)
 };
 
 
@@ -21,19 +22,23 @@ return res.json();
 
 function normalizeWindows(raw, todayStart) {
   const windows = [];
+  const alwaysAvailable = [];
   
-  // Add always-available maps (24/7) - they span the entire day
+  // Track always-available maps (24/7) - they span the entire day
   if (raw.always_available) {
     raw.always_available.forEach(entry => {
-      windows.push({
+      const window = {
         map: entry.map,
         variant: entry.variant,
         tags: entry.tags || [],
         start: todayStart,
         end: todayStart.plus({days: 1}),
         confidence: entry.confidence || 'official',
-        note: entry.note || ''
-      });
+        note: entry.note || '',
+        isAlwaysAvailable: true
+      };
+      windows.push(window);
+      alwaysAvailable.push(window);
     });
   }
   
@@ -97,6 +102,9 @@ function normalizeWindows(raw, todayStart) {
   addScheduleForUTCDay(todayStartUTC, weekdaySchedule, true, weekendSchedule);
   addScheduleForUTCDay(tomorrowStartUTC, weekdaySchedule, true, weekendSchedule);
   
+  // Store always-available maps in state for display
+  state.alwaysAvailable = alwaysAvailable;
+  
   return windows.sort((a,b) => a.start - b.start);
 }
 
@@ -129,7 +137,9 @@ return (w.start <= now) && (now < w.end);
 }
 
 
-function humanMap(w) { return `${w.map} — ${w.variant}`; }
+function humanMap(w) { 
+  return `${w.map} — ${w.variant}`; 
+}
 
 function mergeConsecutiveWindows(windows) {
   if (windows.length === 0) return [];
@@ -175,8 +185,15 @@ function render() {
   // Restore todayItems calculation here for timeline
   const todayStart = now.startOf('day');
   const todayEnd = todayStart.plus({days: 1});
-  // Update filter to include any window overlapping today
-  const todayItems = state.windows.filter(w => w.end > todayStart && w.start < todayEnd);
+  // Update filter to include any window overlapping today, but exclude always-available maps
+  const todayItems = state.windows.filter(w => 
+    w.end > todayStart && 
+    w.start < todayEnd && 
+    !w.isAlwaysAvailable
+  );
+  
+  // Render always-available maps note
+  renderAlwaysAvailable();
 
   // Replace with vertical rendering
   const timelineEl = by('#timeline');
@@ -234,12 +251,15 @@ function render() {
       }
     });
 
-    // Render with left/width based on column, fixed 15% width per event
+    // Render with left/width based on column, dynamic width based on number of columns
     // Split events into hourly segments so we can apply .past class individually
+    const maxColumns = columns.length || 1;
+    // Use wider bars: 30-40% width per column, or divide space evenly if many columns
+    const barWidth = maxColumns === 1 ? 40 : Math.min(35, Math.max(25, 100 / maxColumns));
+    
     todayItems.forEach(w => {
       // Find which column this event is in
       const colIndex = columns.findIndex(col => col.includes(w));
-      const barWidth = 15; // Fixed 15% width
       const left = colIndex * barWidth;
 
       const start = w.start.toLocal();
@@ -279,9 +299,31 @@ function render() {
         // Add label to: first segment, every 4 hours for long events, OR the current active hour
         if (hourOffset === 0 || (eventDurationHours >= 24 && hourOffset % 4 === 0) || isCurrentHour) {
           const label = document.createElement('strong');
-          label.textContent = humanMap(w);
           label.style.position = 'relative';
           label.style.zIndex = '1';
+          
+          // Build label with map name
+          label.textContent = humanMap(w);
+          
+          // Add fiery-owl tag as colored text
+          if (w.tags && w.tags.includes('fiery-owl')) {
+            const tagSpan = document.createElement('span');
+            tagSpan.textContent = ' 🔥 Fiery Owl';
+            tagSpan.style.color = '#ffa500';
+            tagSpan.style.fontSize = '0.85em';
+            tagSpan.style.fontWeight = 'normal';
+            label.appendChild(tagSpan);
+          }
+          
+          // Add Solo tag
+          if (w.tags && w.tags.includes('Solo')) {
+            const soloSpan = document.createElement('span');
+            soloSpan.textContent = ' (Solo)';
+            soloSpan.style.color = 'rgba(255, 255, 255, 0.7)';
+            soloSpan.style.fontSize = '0.9em';
+            label.appendChild(soloSpan);
+          }
+          
           segment.appendChild(label);
         }
         
@@ -313,6 +355,21 @@ function render() {
   
   // Update server region clocks
   updateServerClocks();
+}
+
+function renderAlwaysAvailable() {
+  const alwaysAvailableEl = by('#always-available');
+  if (!alwaysAvailableEl) return;
+  
+  if (state.alwaysAvailable && state.alwaysAvailable.length > 0) {
+    const items = state.alwaysAvailable.map(w => {
+      const tagsText = w.tags && w.tags.length ? ` (${w.tags.join(', ')})` : '';
+      return `${humanMap(w)}${tagsText}`;
+    }).join(', ');
+    alwaysAvailableEl.innerHTML = `<strong>Always Available:</strong> ${items}`;
+  } else {
+    alwaysAvailableEl.innerHTML = '';
+  }
 }
 
 function updateServerClocks() {
