@@ -305,16 +305,6 @@ function render() {
           // Build label with map name
           label.textContent = humanMap(w);
           
-          // Add fiery-owl tag as colored text
-          if (w.tags && w.tags.includes('fiery-owl')) {
-            const tagSpan = document.createElement('span');
-            tagSpan.textContent = ' 🔥 Fiery Owl';
-            tagSpan.style.color = '#ffa500';
-            tagSpan.style.fontSize = '0.85em';
-            tagSpan.style.fontWeight = 'normal';
-            label.appendChild(tagSpan);
-          }
-          
           // Add Solo tag
           if (w.tags && w.tags.includes('Solo')) {
             const soloSpan = document.createElement('span');
@@ -357,16 +347,33 @@ function render() {
   updateServerClocks();
 }
 
+function renderAnnouncements(announcements) {
+  const el = by('#announcements');
+  if (!el) return;
+
+  if (!announcements || announcements.length === 0) {
+    el.innerHTML = '';
+    return;
+  }
+
+  el.innerHTML = announcements.map(a => `
+    <div class="announcement">
+      ${a.label ? `<span class="announcement-label">${a.label}</span>` : ''}
+      <span class="announcement-text">${a.text}</span>
+    </div>
+  `).join('');
+}
+
 function renderAlwaysAvailable() {
   const alwaysAvailableEl = by('#always-available');
   if (!alwaysAvailableEl) return;
   
   if (state.alwaysAvailable && state.alwaysAvailable.length > 0) {
     const items = state.alwaysAvailable.map(w => {
-      const tagsText = w.tags && w.tags.length ? ` (${w.tags.join(', ')})` : '';
-      return `${humanMap(w)}${tagsText}`;
-    }).join(', ');
-    alwaysAvailableEl.innerHTML = `<strong>Always Available:</strong> ${items}`;
+      const tagsText = w.tags && w.tags.length ? ` <span class="always-available-tag">${w.tags.join(', ')}</span>` : '';
+      return `<span class="always-available-item">${humanMap(w)}${tagsText}</span>`;
+    }).join('');
+    alwaysAvailableEl.innerHTML = `<strong class="always-available-heading">Always Available:</strong><span class="always-available-list">${items}</span>`;
   } else {
     alwaysAvailableEl.innerHTML = '';
   }
@@ -403,6 +410,7 @@ async function init() {
     const now = DateTime.local();
     const todayStart = now.startOf('day');
     state.rotationMeta = rotation.metadata;
+    renderAnnouncements(rotation.announcements);
     let windows = normalizeWindows(rotation, todayStart);
     if (overrides && overrides.overrides) {
       windows = applyOverrides(windows, overrides);

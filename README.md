@@ -13,11 +13,12 @@ Real-time map rotation tracker for Delta Force Hazard Operations. View current a
 
 ## Maps Tracked
 
-- **Zero Dam** (Easy, Normal, Solo, Night)
-- **Layali Grove** (Easy, Normal)
+- **Zero Dam** (Easy, Normal)
+- **Layali Grove** (Easy, Solo)
 - **Brakkesh** (Normal)
 - **Space City** (Normal, Hard)
-- **Tide Prison** (Hard)
+- **Tide Prison** (Normal, Hard)
+- **AZ3** (Easy, Normal) — Season 10 Meltdown
 
 ## How It Works
 
