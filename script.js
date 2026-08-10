@@ -396,6 +396,55 @@ function updateServerClocks() {
   }
 }
 
+function renderRoomCodes(doc) {
+  const grid = by('#room-codes');
+  const meta = by('#room-codes-meta');
+  if (!grid) return;
+
+  if (!doc || !Array.isArray(doc.codes) || doc.codes.length === 0) {
+    grid.textContent = 'No room codes available yet.';
+    if (meta) meta.textContent = '';
+    return;
+  }
+
+  grid.innerHTML = doc.codes.map(entry => `
+    <button type="button" class="room-code-item" data-code="${entry.code}" title="Copy ${entry.map} code">
+      <span class="room-code-map">${entry.map}</span>
+      <span class="room-code-value">${entry.code}</span>
+    </button>
+  `).join('');
+
+  grid.querySelectorAll('.room-code-item').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const code = btn.getAttribute('data-code') || '';
+      try {
+        await navigator.clipboard.writeText(code);
+        btn.classList.add('copied');
+        const valueEl = btn.querySelector('.room-code-value');
+        const prev = valueEl ? valueEl.textContent : code;
+        if (valueEl) valueEl.textContent = 'Copied';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          if (valueEl) valueEl.textContent = prev;
+        }, 1200);
+      } catch (e) {
+        console.warn('Clipboard copy failed:', e);
+      }
+    });
+  });
+
+  if (meta) {
+    if (doc.updated_at) {
+      const updated = DateTime.fromISO(doc.updated_at, { zone: 'utc' });
+      meta.textContent = updated.isValid
+        ? `Updated ${updated.toLocal().toFormat("ccc LLL d, HH:mm ZZZZ")}`
+        : `Updated ${doc.updated_at}`;
+    } else {
+      meta.textContent = '';
+    }
+  }
+}
+
 async function init() {
   try {
     const rotation = await loadJSON('rotation.json');
@@ -404,6 +453,14 @@ async function init() {
       overrides = await loadJSON('overrides.json');
     } catch (e) {
       console.warn('No overrides file or failed to load:', e);
+    }
+
+    try {
+      const roomCodes = await loadJSON('room-codes.json');
+      renderRoomCodes(roomCodes);
+    } catch (e) {
+      console.warn('No room-codes file or failed to load:', e);
+      renderRoomCodes(null);
     }
 
     // Use local time for display, but convert UTC schedule times in normalizeWindows

@@ -5,6 +5,7 @@ Real-time map rotation tracker for Delta Force Hazard Operations. View current a
 ## Features
 
 - 🎯 **Live Timeline View** - Visual 24-hour calendar with color-coded maps
+- 🔐 **Daily Password Codes** - Today's password-room codes per map (auto-updated)
 - ⏰ **Local Timezone** - Automatically shows times in your timezone
 - 🔴 **Current Time Indicator** - Red line shows exactly where you are now
 - 🎨 **Map-Specific Colors** - Easy-to-distinguish color coding for each map
@@ -26,6 +27,28 @@ The tracker uses a simple JSON structure to define map rotations:
 - `always_available` - Maps available 24/7
 - `weekday_rotation` - Monday through Sunday base schedule
 - `weekend_additions` - Extra maps for Friday-Sunday
+
+## Daily Password Codes
+
+`room-codes.json` is refreshed by GitHub Actions (`.github/workflows/update-room-codes.yml`). The workflow signs requests with a key stored in repository secrets — nothing sensitive is committed.
+
+### Repository secrets
+
+In GitHub: **Settings → Secrets and variables → Actions → New repository secret**
+
+| Name | Required | Value |
+|---|---|---|
+| `DF_ROOM_APPKEY` | **Yes** | Signing appkey used by the official HQ Daily Password client |
+| `DF_ROOM_APP_ID` | No | Defaults to `10005` if unset |
+| `DF_ROOM_API_BASE` | No | Defaults to `https://sg-act.playerinfinite.com` if unset |
+
+After adding `DF_ROOM_APPKEY`, run **Actions → Update room codes → Run workflow** once to verify.
+
+Local smoke test:
+
+```bash
+DF_ROOM_APPKEY='your-appkey-here' python3 scripts/fetch_room_codes.py
+```
 
 ## Updating Schedules
 

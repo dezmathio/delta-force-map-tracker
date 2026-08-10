@@ -27,6 +27,14 @@ header.wrap { padding-top: 24px; }
 .grid { grid-template-columns: 1fr; } /* Single column for focus */
 
 .card { background: var(--card); border: 1px solid #1f2a36; border-radius: 12px; padding: 16px; box-shadow: 0 0 0 1px rgba(255,255,255,0.02) inset; }
+.room-codes-sub { margin: 0 0 14px; color: var(--muted); font-size: 0.95em; }
+.room-codes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.room-code-item { display: flex; flex-direction: column; gap: 6px; padding: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; cursor: pointer; text-align: left; color: inherit; font: inherit; transition: border-color 0.15s ease, background 0.15s ease; }
+.room-code-item:hover, .room-code-item:focus-visible { border-color: rgba(110, 231, 255, 0.45); background: rgba(110, 231, 255, 0.06); outline: none; }
+.room-code-map { font-size: 13px; font-weight: 600; color: var(--text); }
+.room-code-value { font-size: 22px; font-weight: 700; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; color: var(--accent); }
+.room-code-item.copied .room-code-value { color: #86efac; }
+.room-codes-meta { margin: 12px 0 0; font-size: 12px; }
 .card.muted { opacity: 0.9; }
 .stack > * + * { margin-top: 10px; }
 .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 10px; background: rgba(255,255,255,0.02); border-radius: 8px; }

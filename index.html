@@ -114,6 +114,13 @@
 
 
 <main class="wrap grid">
+<section class="card room-codes-card">
+<h2>Daily Password</h2>
+<p class="room-codes-sub">Password room codes for today. Tap a code to copy.</p>
+<div id="room-codes" class="room-codes-grid" aria-live="polite">Loading…</div>
+<p class="room-codes-meta muted" id="room-codes-meta"></p>
+</section>
+
 <section class="card timeline-card">
 <h2>Today's Timeline</h2>
 <div id="always-available" class="always-available-note"></div>
@@ -128,7 +135,7 @@
 
 <footer class="wrap foot">
 <small>
-Built as a community utility. Source data: <code>rotation.json</code> + <code>overrides.json</code> (UTC). End times are exclusive.
+Built as a community utility. Source data: <code>rotation.json</code>, <code>room-codes.json</code>, <code>overrides.json</code> (UTC). End times are exclusive.
 <br>
 Support the developer: <a href="https://buymeacoffee.com/dezmathio" target="_blank" rel="noopener">Buy me a coffee ☕</a>
 </small>
