@@ -419,14 +419,6 @@ function renderRoomCodes(doc) {
       const code = btn.getAttribute('data-code') || '';
       try {
         await navigator.clipboard.writeText(code);
-        btn.classList.add('copied');
-        const valueEl = btn.querySelector('.room-code-value');
-        const prev = valueEl ? valueEl.textContent : code;
-        if (valueEl) valueEl.textContent = 'Copied';
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          if (valueEl) valueEl.textContent = prev;
-        }, 1200);
       } catch (e) {
         console.warn('Clipboard copy failed:', e);
       }
