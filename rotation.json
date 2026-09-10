@@ -1,12 +1,12 @@
 {
   "rotation_id": "operations",
   "source_timezone": "UTC",
-  "note": "S11 OPERATIONS MAP ROTATION transcribed from the official promotional graphic (UTC+0), with Zero Dam Normal and Space City Normal confirmed always available off-rotation. Alternates every 2 hours between AZ3 Easy + Tide Prison Hard and AZ3 Normal + Space City Hard. Layali Grove Easy (Squad Fill), Brakkesh Normal, Zero Dam Normal, and Space City Normal are permanent. Layali Grove Normal is permanent on weekends (Fri–Sun UTC).",
+  "note": "S11 OPERATIONS MAP ROTATION transcribed from the official promotional graphic (UTC+0), updated after launch: AZ3 Normal is always available off-rotation. Alternates every 2 hours between AZ3 Easy + Tide Prison Hard and Space City Hard. Layali Grove Easy (Squad Fill), Brakkesh Normal, Zero Dam Normal, Space City Normal, and AZ3 Normal are permanent. Layali Grove Normal is permanent on weekends (Fri–Sun UTC).",
 
   "announcements": [
     {
       "label": "S11",
-      "text": "Operations map rotation updated — AZ3 Easy + Tide Prison Hard alternate with AZ3 Normal + Space City Hard every 2 hours. Layali Grove Easy (Squad Fill), Brakkesh Normal, Zero Dam Normal, and Space City Normal are permanent. Layali Grove Normal is permanent on weekends."
+      "text": "Operations map rotation updated — AZ3 Easy + Tide Prison Hard alternate with Space City Hard every 2 hours. Layali Grove Easy (Squad Fill), Brakkesh Normal, Zero Dam Normal, Space City Normal, and AZ3 Normal are permanent. Layali Grove Normal is permanent on weekends."
     }
   ],
 
@@ -14,7 +14,8 @@
     {"map": "Layali Grove", "variant": "Easy", "tags": ["Squad Fill"]},
     {"map": "Brakkesh", "variant": "Normal"},
     {"map": "Zero Dam", "variant": "Normal"},
-    {"map": "Space City", "variant": "Normal"}
+    {"map": "Space City", "variant": "Normal"},
+    {"map": "AZ3", "variant": "Normal"}
   ],
 
   "weekday_rotation": {
@@ -24,49 +25,37 @@
       {"hour": 0, "map": "Tide Prison", "variant": "Hard"},
       {"hour": 1, "map": "AZ3", "variant": "Easy"},
       {"hour": 1, "map": "Tide Prison", "variant": "Hard"},
-      {"hour": 2, "map": "AZ3", "variant": "Normal"},
       {"hour": 2, "map": "Space City", "variant": "Hard"},
-      {"hour": 3, "map": "AZ3", "variant": "Normal"},
       {"hour": 3, "map": "Space City", "variant": "Hard"},
       {"hour": 4, "map": "AZ3", "variant": "Easy"},
       {"hour": 4, "map": "Tide Prison", "variant": "Hard"},
       {"hour": 5, "map": "AZ3", "variant": "Easy"},
       {"hour": 5, "map": "Tide Prison", "variant": "Hard"},
-      {"hour": 6, "map": "AZ3", "variant": "Normal"},
       {"hour": 6, "map": "Space City", "variant": "Hard"},
-      {"hour": 7, "map": "AZ3", "variant": "Normal"},
       {"hour": 7, "map": "Space City", "variant": "Hard"},
       {"hour": 8, "map": "AZ3", "variant": "Easy"},
       {"hour": 8, "map": "Tide Prison", "variant": "Hard"},
       {"hour": 9, "map": "AZ3", "variant": "Easy"},
       {"hour": 9, "map": "Tide Prison", "variant": "Hard"},
-      {"hour": 10, "map": "AZ3", "variant": "Normal"},
       {"hour": 10, "map": "Space City", "variant": "Hard"},
-      {"hour": 11, "map": "AZ3", "variant": "Normal"},
       {"hour": 11, "map": "Space City", "variant": "Hard"},
       {"hour": 12, "map": "AZ3", "variant": "Easy"},
       {"hour": 12, "map": "Tide Prison", "variant": "Hard"},
       {"hour": 13, "map": "AZ3", "variant": "Easy"},
       {"hour": 13, "map": "Tide Prison", "variant": "Hard"},
-      {"hour": 14, "map": "AZ3", "variant": "Normal"},
       {"hour": 14, "map": "Space City", "variant": "Hard"},
-      {"hour": 15, "map": "AZ3", "variant": "Normal"},
       {"hour": 15, "map": "Space City", "variant": "Hard"},
       {"hour": 16, "map": "AZ3", "variant": "Easy"},
       {"hour": 16, "map": "Tide Prison", "variant": "Hard"},
       {"hour": 17, "map": "AZ3", "variant": "Easy"},
       {"hour": 17, "map": "Tide Prison", "variant": "Hard"},
-      {"hour": 18, "map": "AZ3", "variant": "Normal"},
       {"hour": 18, "map": "Space City", "variant": "Hard"},
-      {"hour": 19, "map": "AZ3", "variant": "Normal"},
       {"hour": 19, "map": "Space City", "variant": "Hard"},
       {"hour": 20, "map": "AZ3", "variant": "Easy"},
       {"hour": 20, "map": "Tide Prison", "variant": "Hard"},
       {"hour": 21, "map": "AZ3", "variant": "Easy"},
       {"hour": 21, "map": "Tide Prison", "variant": "Hard"},
-      {"hour": 22, "map": "AZ3", "variant": "Normal"},
       {"hour": 22, "map": "Space City", "variant": "Hard"},
-      {"hour": 23, "map": "AZ3", "variant": "Normal"},
       {"hour": 23, "map": "Space City", "variant": "Hard"}
     ]
   },
