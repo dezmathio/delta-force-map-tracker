@@ -1,36 +1,36 @@
 {
-  "updated_at": "2026-10-10T16:24:17Z",
+  "updated_at": "2026-10-11T01:08:01Z",
   "source": "DfTools/GetPrivateRoomKey",
   "codes": [
     {
       "map": "Zero Dam",
       "key": "zero_dam",
-      "code": "0629"
+      "code": "1112"
     },
     {
       "map": "Layali Grove",
       "key": "longbow_valley",
-      "code": "0685"
+      "code": "7394"
     },
     {
       "map": "Brakkesh",
       "key": "bakshe",
-      "code": "0914"
+      "code": "0562"
     },
     {
       "map": "Space City",
       "key": "spaceport",
-      "code": "0177"
+      "code": "6471"
     },
     {
       "map": "Tide Prison",
       "key": "tide_prison",
-      "code": "0975"
+      "code": "6250"
     },
     {
       "map": "AZ3",
       "key": "az3",
-      "code": "0530"
+      "code": "2362"
     }
   ]
 }
